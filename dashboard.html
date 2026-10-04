@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>داشبورد</title><link rel="stylesheet" href="style.css">
+<style>
+body{padding:24px 16px 60px}.w{max-width:760px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.card{background:#fffdf7;border:1px solid var(--line);border-radius:14px;padding:14px}
+.card b.n{display:block;font-size:2rem;font-weight:300;text-align:center}
+.yes b.n{color:#5f7a54}.no b.n{color:#a4584c}
+ul{list-style:none;padding:0;margin-top:8px}li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:.95rem}
+li p{white-space:pre-wrap;color:var(--soft);font-size:.88rem;line-height:1.8}
+.d{border:0;background:none;color:#a4584c;cursor:pointer;font:inherit;padding:6px 8px;min-height:36px}
+#lg{max-width:320px;margin:16vh auto;text-align:center}
+h3{font-weight:500;margin:26px 0 6px}
+</style></head><body><div class="w">
+<form id="lg" hidden><h2>داشبورد مدیریت</h2><input id="p" type="password" placeholder="رمز عبور" dir="ltr" required autofocus><p class="err" id="er"></p><button class="btn fill">ورود</button></form>
+<div id="app" hidden>
+<div class="top"><h2>داشبورد · اسما و علی</h2><button class="btn" id="out">خروج</button></div>
+<div class="grid"><div class="card yes"><b class="n" id="ny">۰</b><div style="text-align:center">حاضر می‌شوند</div><ul id="ly"></ul></div><div class="card no"><b class="n" id="nn">۰</b><div style="text-align:center">حاضر نمی‌شوند</div><ul id="ln"></ul></div></div>
+<h3>پیام‌های دیوار (<span id="nm">۰</span>)</h3><div class="card"><ul id="lm"></ul></div>
+</div></div>
+<script src="config.js"></script><script src="db.js"></script>
+<script>
+const {watch,del,login,logout,onUser}=DB;
+const $=s=>document.querySelector(s),fa=n=>Number(n).toLocaleString('fa-IR');
+const row=(col,x,sub)=>{const li=document.createElement('li'),d=document.createElement('div');d.append(Object.assign(document.createElement('span'),{textContent:x.name}));
+if(sub){d.append(Object.assign(document.createElement('p'),{textContent:x.text}))}
+const b=Object.assign(document.createElement('button'),{className:'d',textContent:'حذف'});b.onclick=()=>confirm('حذف شود؟')&&del(col,x.id);li.append(d,b);return li};
+let on=false;
+onUser(u=>{$('#lg').hidden=!!u;$('#app').hidden=!u;if(u&&!on){on=true;
+watch('rsvps',(l,e)=>{if(!l){$('#ly').textContent='خطا: '+(e?.code||'');return}
+const y=l.filter(x=>x.attending),n=l.filter(x=>!x.attending);$('#ny').textContent=fa(y.length);$('#nn').textContent=fa(n.length);
+$('#ly').replaceChildren(...y.map(x=>row('rsvps',x)));$('#ln').replaceChildren(...n.map(x=>row('rsvps',x)))});
+watch('messages',l=>{if(!l)return;$('#nm').textContent=fa(l.length);$('#lm').replaceChildren(...l.map(x=>row('messages',x,1)))})}});
+$('#lg').onsubmit=async e=>{e.preventDefault();try{await login($('#p').value)}catch{$('#er').textContent='رمز عبور اشتباه است'}};
+$('#out').onclick=async()=>{await logout();location.reload()};
+</script></body></html>
