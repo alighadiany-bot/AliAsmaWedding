@@ -6,5 +6,9 @@ window.WEDDING = {
 };
 // ایمیلی که در Firebase برای مدیر می‌سازید (رمزش: AliAsma). راهنما در README.md
 window.ADMIN_EMAIL = 'admin@ali-asma.com';
-// تا وقتی apiKey خالی است «حالت آزمایشی» فعال است (داده‌ها فقط در همین مرورگر)
-window.FB_CONFIG = { apiKey: '', authDomain: '', projectId: '', appId: '' };
+window.FB_CONFIG = {
+  apiKey: 'AIzaSyBxUu4gjJrY65lcsskM965UQ10q9fOYC4g',
+  authDomain: 'aliasmawedding.firebaseapp.com',
+  projectId: 'aliasmawedding',
+  appId: '1:912899385634:web:67a6a9fe27b5c6d2dddd7b'
+};

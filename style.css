@@ -66,7 +66,7 @@ h2 small{display:block;font-size:1.2rem;color:var(--gold);font-style:italic;font
 .intro .names-fa{font-size:1.3rem;color:var(--soft);letter-spacing:.06em}
 .date{font-size:1.5rem;font-weight:500;margin-top:8px}.date2{color:var(--soft);font-size:.95rem}
 .invite{margin-top:26px;font-size:1.05rem}.invite b{font-weight:500}
-#cd{direction:ltr;display:flex;justify-content:center;gap:clamp(12px,4vw,26px);margin-top:34px}
+#cd{direction:ltr;display:flex;justify-content:center;gap:clamp(12px,4vw,26px);margin-top:14px}
 #cd div{min-width:58px;border-top:1px solid var(--line);padding-top:8px}
 #cd b{display:block;font-weight:300;font-size:2rem;line-height:1.4}#cd span{font-size:.82rem;color:var(--soft)}
 .facts{display:grid;gap:18px;margin-top:28px}
@@ -132,3 +132,6 @@ body.opened .snd{opacity:.9;pointer-events:auto}
 .snd svg{width:20px;height:20px}
 .snd .w{transition:opacity .2s}.snd.off .w{opacity:0}.snd .x{opacity:0}.snd.off .x{opacity:1}
 svg.pnl{overflow:hidden}
+.cdt{margin-top:40px;font-size:1.05rem;font-weight:500;color:var(--gold);text-align:center}
+.cdt::before,.cdt::after{content:"";display:inline-block;width:26px;height:1px;background:var(--line);vertical-align:middle;margin:0 10px}
+.note.pinned::after{content:"📌";position:absolute;top:-14px;right:10px;font-size:1.05rem;filter:drop-shadow(0 1px 1px #0003)}

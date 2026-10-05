@@ -25,6 +25,14 @@ async function del(col, id) {
   if (demo) return wr(col, rd(col).filter(x => x.id !== id));
   await F.fs.deleteDoc(F.fs.doc(db, col, id));
 }
+async function upd(col, id, data) {
+  await init();
+  if (demo) return wr(col, rd(col).map(x => x.id === id ? { ...x, ...data } : x));
+  await F.fs.updateDoc(F.fs.doc(db, col, id), data);
+}
+/* ترتیب نمایش پیام‌ها: اول سنجاق‌شده‌ها، بعد بقیه؛ داخل هر گروه بر اساس ord (پیش‌فرض: تازه‌ترین اول) */
+const eo = x => x.ord ?? -x.at;
+const order = l => [...l].sort((a, b) => (!!b.pin - !!a.pin) || eo(a) - eo(b));
 async function login(pw) {
   await init();
   if (demo) { if (pw !== 'AliAsma') throw 0; sessionStorage.adm = 1; return; }
@@ -32,5 +40,5 @@ async function login(pw) {
 }
 async function logout() { await init(); delete sessionStorage.adm; if (!demo) await F.au.signOut(auth); }
 async function onUser(cb) { await init(); if (demo) return cb(sessionStorage.adm ? { demo: true } : null); F.au.onAuthStateChanged(auth, cb); }
-return {add,watch,del,login,logout,onUser,demo};
+return {add,watch,del,upd,order,eo,login,logout,onUser,demo};
 })();

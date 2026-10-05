@@ -75,7 +75,7 @@
 <span class="ln">کنارمان باشید و شادی این شب را</span>
 <span class="ln">با حضور گرم و مهربانتان کامل کنید.</span>
 <b class="sign">با عشق، اسما و علی</b></p>
-<div id="cd" aria-label="شمارش معکوس"></div>
+<div id="cdw"><p class="cdt">تا آغاز قصه‌ی تازه‌ی ما</p><div id="cd" aria-label="شمارش معکوس"></div></div>
 </div>
 </header>
 
@@ -181,7 +181,7 @@ $('#scue').onclick=()=>$('.intro').scrollIntoView({behavior:'smooth',block:'star
 const cueCheck=()=>document.body.classList.toggle('scrolled',scrollY>40);addEventListener('scroll',cueCheck,{passive:true});
 /* ---- countdown ---- */
 const target=new Date(W.timeISO).getTime(),cd=$('#cd');
-const tick=()=>{let s=Math.floor((target-Date.now())/1000);if(s<0){cd.hidden=true;return}
+const tick=()=>{let s=Math.floor((target-Date.now())/1000);if(s<0){$('#cdw').hidden=true;return}
 cd.innerHTML=[[86400,'روز'],[3600,'ساعت'],[60,'دقیقه']].map(([k,l])=>{const v=Math.floor(s/k);s%=k;return `<div><b>${fa(v)}</b><span>${l}</span></div>`}).join('')};
 tick();setInterval(tick,15000);
 /* ---- rsvp ---- */
@@ -196,7 +196,7 @@ dlg.onclick=e=>{if(!big.contains(e.target))dlg.close()};big.querySelector('.x').
 $('#mf').onsubmit=async e=>{e.preventDefault();const er=$('#me');er.hidden=true;
 try{await add('messages',{name:$('#mn').value.trim(),text:$('#mt').value.trim()});$('#mt').value=''}catch{er.textContent='ارسال نشد. دوباره تلاش کنید.';er.hidden=false}};
 watch('messages',l=>{if(!l)return;const b=$('#board');b.querySelectorAll('.note:not([data-pin])').forEach(x=>x.remove());
-l.forEach((x,i)=>{const n=document.createElement('button');n.className='note';n.style.background=cols[i%5];n.style.transform=`rotate(${[-3,2,-1.5,3,-2.5,1.5][i%6]}deg)`;
+DB.order(l).forEach((x,i)=>{const n=document.createElement('button');n.className='note'+(x.pin?' pinned':'');n.style.background=cols[i%5];n.style.transform=`rotate(${[-3,2,-1.5,3,-2.5,1.5][i%6]}deg)`;
 n.append(Object.assign(document.createElement('p'),{textContent:x.text}),Object.assign(document.createElement('h4'),{textContent:x.name}));b.append(n)})});
 </script>
 </body></html>
